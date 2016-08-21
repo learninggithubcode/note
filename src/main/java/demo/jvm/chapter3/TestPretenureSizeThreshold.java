@@ -1,6 +1,7 @@
 package demo.jvm.chapter3;
 
 /**
+ * 注：PretenureSizeThreshold参数只对Serial和ParNew两款收集器有效
  * 测试-XX:PretenureSizeThreshold参数（代码没验证出来）
  *
  * vm参数：-Xms20m -Xmx20m -Xmn10m -XX:+PrintGCDetails -XX:SurvivorRatio=8 -XX:PretenureSizeThreshold=3145728
