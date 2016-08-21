@@ -52,6 +52,7 @@ HotSpot的算法实现
 
     Serial收集器
         新生代收集器
+        复制算法
         单线程
         进行垃圾收集时，必须暂停其他所有工作线程，直到它收集结束
         新生代采用复制算法
@@ -59,12 +60,14 @@ HotSpot的算法实现
 
     ParNew收集器
         新生代收集器
+        复制算法
         Serial收集器多线程版本，其余特性与Serial收集器一样
         Server模式下的虚拟机中首选的新生代收集器
         能与CMS收集器配合工作
 
     Parallel Scavenge收集器
         新生代收集器
+        复制算法
         多线程、并行
         吞吐量优先
         自适应调节策略
@@ -100,6 +103,7 @@ HotSpot的算法实现
 
 理解GC日志
 
+
 垃圾收集器参数总结
     参考：http://www.360doc.cn/article/2159920_68484779.html
     -XX:+UseSerialGC  	虚拟机运行在Client模式下的默认值，打开此开关后，使用Serial + Serial Old的收集器组合进行内存回收
@@ -118,4 +122,11 @@ HotSpot的算法实现
     -XX:CMSInitiatingOccupancyFraction  设置CMS收集器在老年代空间被使用多少后出发垃圾收集，默认值为68%，仅在CMS收集器时有效，-XX:CMSInitiatingOccupancyFraction=70
     -XX:+UseCMSCompactAtFullCollection    由于CMS收集器会产生碎片，此参数设置在垃圾收集器后是否需要一次内存碎片整理过程，仅在CMS收集器时有效
     -XX:+CMSFullGCBeforeCompaction   设置CMS收集器在进行若干次垃圾收集后再进行一次内存碎片整理过程，前提是UseCMSCompactAtFullCollection已经开启
+
+内存分配与回收策略
+
+    对象的分配：对象主要分配在新生代的Eden区上，如果启动了本地线程分配缓冲（解决多线程下同步分配冲突问题的一种解决方案），将按线程优先在TLAB上分配。少数情况下也可能会直接分配在老年代中，
+    具体规则还是由使用的垃圾收集器和内存相关的参数的设置决定。
+
+    对象优先在Eden分配
 
