@@ -93,7 +93,7 @@ HotSpot的算法实现
         涉及参数：
             -XX:CMSInitiatingOccupancyFraction=70 设置阀值为70%，默认为68%。
             -XX:+UseCMSCompactAtFullCollection 表示CMS顶不住要进行FGC时开启内存碎片合并整理过程，默认就是开启的。
-            -XX:CMSFullGCsBeforeCompaction=1 设置多少次full gc后进行内存压缩，由于并发收集器不对内存空间进行压缩、整理，所以运行一段时间以后会产生"碎片"。
+            -XX:CMSFullGCsBeforeCompaction=1 设置多少次full gc后进行内存压缩（前提UseCMSCompactAtFullCollection已经开启），由于并发收集器不对内存空间进行压缩、整理，所以运行一段时间以后会产生"碎片"。
 
     G1收集器
         当今收集器技术发展的最前沿成果之一
@@ -101,6 +101,7 @@ HotSpot的算法实现
 理解GC日志
 
 垃圾收集器参数总结
+    参考：http://www.360doc.cn/article/2159920_68484779.html
     -XX:+UseSerialGC  	虚拟机运行在Client模式下的默认值，打开此开关后，使用Serial + Serial Old的收集器组合进行内存回收
     -XX:+UseParNewGC    打开此开关后，使用ParNew + Serial Old的收集器进行垃圾回收
     -XX:+UseConcMarkSweepGC   使用ParNew + CMS +  Serial Old的收集器组合进行内存回收，Serial Old作为CMS出现“Concurrent Mode Failure”失败后的后备收集器使用
@@ -116,5 +117,5 @@ HotSpot的算法实现
     -XX:MaxGCPauseMillis   	设置GC的最大停顿时间，在Parallel Scavenge 收集器下有效
     -XX:CMSInitiatingOccupancyFraction  设置CMS收集器在老年代空间被使用多少后出发垃圾收集，默认值为68%，仅在CMS收集器时有效，-XX:CMSInitiatingOccupancyFraction=70
     -XX:+UseCMSCompactAtFullCollection    由于CMS收集器会产生碎片，此参数设置在垃圾收集器后是否需要一次内存碎片整理过程，仅在CMS收集器时有效
-    -XX:+CMSFullGCBeforeCompaction   设置CMS收集器在进行若干次垃圾收集后再进行一次内存碎片整理过程，通常与UseCMSCompactAtFullCollection参数一起使用
+    -XX:+CMSFullGCBeforeCompaction   设置CMS收集器在进行若干次垃圾收集后再进行一次内存碎片整理过程，前提是UseCMSCompactAtFullCollection已经开启
 
