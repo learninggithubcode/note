@@ -102,6 +102,13 @@ HotSpot的算法实现
         当今收集器技术发展的最前沿成果之一
 
 理解GC日志
+    -XX:+PrintGCDetails    打印内存回收日志
+    [GC[DefNew: 5607K->841K(9216K), 0.0026280 secs] 5607K->4937K(19456K), 0.0026460 secs] [Times: user=0.01 sys=0.00, real=0.00 secs]
+解释：1    2      3                                   4
+    1：有GC和Full GC：如果有Full,说明了这次GC发生了stop the world。
+    2：GC发生的区域，新生代（Serial收集器：DefNew、ParNew收集器:ParNew、Parallel Scavenge收集器：PSYoungGen），老年代（）。
+    3：GC前该内存区域已使用容量 -> GC后该内存区域已使用容量（该内存区域总容量）
+    4：GC前Java堆已使用容量 -> GC后Java堆已使用容量（Java堆）
 
 
 垃圾收集器参数总结
@@ -115,7 +122,7 @@ HotSpot的算法实现
     -XX:PretenureSizeThreshold  直接晋升到老年代对象的大小，设置这个参数后，大于这个参数的对象将直接在老年代分配
     -XX:MaxTenuringThreshold   晋升到老年代的对象年龄，每次Minor GC之后，年龄就加1，当超过这个参数的值时进入老年代
     -XX:UseAdaptiveSizePolicy   动态调整java堆中各个区域的大小以及进入老年代的年龄
-    -XX:+HandlePromotionFailure   是否允许新生代收集担保，进行一次minor gc后, 另一块Survivor空间不足时，将直接会在老年代中保留
+    -XX:+HandlePromotionFailure  是否允许新生代收集担保，进行一次minor gc后, 另一块Survivor空间不足时，将直接会在老年代中保留，新版JDK 6 Update 24 已经弃用，就当成true来处理。
     -XX:ParallelGCThreads   	设置并行GC进行内存回收的线程数
     -XX:GCTimeRatio    GC时间占总时间的比列，默认值为99，即允许1%的GC时间，仅在使用Parallel Scavenge 收集器时有效
     -XX:MaxGCPauseMillis   	设置GC的最大停顿时间，在Parallel Scavenge 收集器下有效
@@ -125,8 +132,27 @@ HotSpot的算法实现
 
 内存分配与回收策略
 
-    对象的分配：对象主要分配在新生代的Eden区上，如果启动了本地线程分配缓冲（解决多线程下同步分配冲突问题的一种解决方案），将按线程优先在TLAB上分配。少数情况下也可能会直接分配在老年代中，
-    具体规则还是由使用的垃圾收集器和内存相关的参数的设置决定。
+    对象的分配：对象主要分配在新生代的Eden区上，如果启动了本地线程分配缓冲（解决多线程下同步分配冲突问题的一种解决方案），将按线程优先在TLAB上分配。
+    少数情况下也可能会直接分配在老年代中，具体规则还是由使用的垃圾收集器和内存相关的参数的设置决定。
 
     对象优先在Eden分配
+        大多数情况下，对象在新生代的Eden区中分配，当Eden区没有足够空间进行分配时，虚拟机将发起一次Minor GC。
+        Minor GC 与 Full GC 比较：
+            Minor GC 指发生在新生代的垃圾收集动作，频繁、速度快。
+            Full GC（或Major GC） 指老年代的GC，经常伴随至少一次Minor GC，速度慢。
 
+    大对象直接进入老年代
+        避免在Eden区及两个Survivor区之间发生大量的内存复制。
+        相关设置：-XX:PretenureSizeThreshold
+
+    长期存活的对象将进入老年代
+        对象年龄（Age）：每进行一次Minor GC 时加一。
+        相关设置：-XX:MaxTenuringThreshold
+
+    动态对象年龄判断
+        如果Survivor空间中相同年龄所有对象大小总和大于Survivor空间的一半，年龄大于或等于该年龄的对象就可以直接进入老年代，无需等到MaxTenuringThreshold要求的年龄。
+
+    空间担保分配
+       在发生Minor GC之前，虚拟机会先检查老年代最大可用连续空间是否大于新生代所有对象总空间，如果这个条件成立，那么Minor GC可以确保是安全的，
+       如果不成立，则虚拟机会查看HandlePromotionFailure设置值是否允许担保失败（JDK 6 Update 24 后强制允许）。如果允许，
+       那么会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象平均大小，如果大于，将尝试一次Minor GC ，如果小于，进行FullGC。

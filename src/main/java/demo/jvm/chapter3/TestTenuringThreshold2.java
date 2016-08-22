@@ -14,11 +14,19 @@ public class TestTenuringThreshold2
     public static void main(String[] args)
     {
         byte[] allocation1, allocation2, allocation3,allocation4;
-        allocation1 = new byte[_1MB / 4];
-        allocation2 = new byte[_1MB / 4];
+        System.out.println("0");
+//        allocation1 = new byte[_1MB / 4];
+        System.out.println("1");
+//        allocation2 = new byte[_1MB / 4];
+        System.out.println("2");
         allocation3 = new byte[4 * _1MB];
+        System.out.println("3");
         allocation4 = new byte[4 * _1MB];
+        System.out.println("4");
         allocation4 = null;
+        System.out.println("5");
         allocation4 = new byte[4 * _1MB];
+        System.out.println("6");
+
     }
 }
