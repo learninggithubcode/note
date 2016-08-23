@@ -162,3 +162,6 @@ HotSpot的算法实现
        在发生Minor GC之前，虚拟机会先检查老年代最大可用连续空间是否大于新生代所有对象总空间，如果这个条件成立，那么Minor GC可以确保是安全的，
        如果不成立，则虚拟机会查看HandlePromotionFailure设置值是否允许担保失败（JDK 6 Update 24 后强制允许）。如果允许，
        那么会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象平均大小，如果大于，将尝试一次Minor GC ，如果小于，进行FullGC。
+
+参考资料：
+eden、survivor区域解说：http://www.iteye.com/topic/894148
