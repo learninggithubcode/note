@@ -1,6 +1,7 @@
 判断对象是否已死
 
     引用计数算法
+        优点：实现简单、判定效率高
         缺点：循环引用问题：不再被使用的对象之间相互引用抱团
 
     可达性分析算法 （java）：当一个对象到GC Roots没有任何引用链相连时，则证明此对象是不可用的。
@@ -26,6 +27,9 @@
 
     标记-清除算法
         先标记后清除，效率低下
+        缺点：
+            一：效率问题，标记和清除效率都不高；
+            二：空间问题，标记清除之后会产生大量不连续的内存碎片
 
     复制算法
         原理：将内存分为n快并分为2组，其中一组专门用作GC处理，每次GC处理后，将还存活着的对象复制到另一组内存中。同时需要分配担保支持。
@@ -56,15 +60,16 @@ HotSpot的算法实现
     Serial收集器
         新生代收集器
         复制算法
-        单线程
+        单线程 串行
         进行垃圾收集时，必须暂停其他所有工作线程，直到它收集结束
         新生代采用复制算法
         常用于桌面应用
+        client模式下的虚拟机首选
 
     ParNew收集器
         新生代收集器
         复制算法
-        Serial收集器多线程版本，其余特性与Serial收集器一样
+        Serial收集器多线程版本，并行，其余特性与Serial收集器一样
         Server模式下的虚拟机中首选的新生代收集器
         能与CMS收集器配合工作
 
@@ -81,6 +86,7 @@ HotSpot的算法实现
         采用标记-整理算法
 
     Parallel Old收集器
+        是Parallel Scavenge收集器的老年代版本
         老年代
         多线程、并行
         采用标记-整理算法
@@ -97,12 +103,14 @@ HotSpot的算法实现
             重新标记：需要 "stop the world" ，修正标记记录
             并发清除：与用户线程同步，
         缺点：
+            对CPU资源敏感，可能导致用户程序的执行速度下降
             无法处理浮动垃圾（并发是用户线程产生的新垃圾）
             可能出现因“预留空间”不足引发“Concurrent Mode Failure”失败而导致另一次Full GC
+            会产生大量的空间碎片，没有大的连续空间来分配对象，提前出发Full GC
         涉及参数：
-            -XX:CMSInitiatingOccupancyFraction=70 设置阀值为70%，默认为68%。
+            -XX:CMSInitiatingOccupancyFraction=70 设置阀值为70%，标示老年代使用了70%后会被激活（默认为68%）。
             -XX:+UseCMSCompactAtFullCollection 表示CMS顶不住要进行FGC时开启内存碎片合并整理过程，默认就是开启的。
-            -XX:CMSFullGCsBeforeCompaction=1 设置多少次full gc后进行内存压缩（前提UseCMSCompactAtFullCollection已经开启），由于并发收集器不对内存空间进行压缩、整理，所以运行一段时间以后会产生"碎片"。
+            -XX:CMSFullGCsBeforeCompaction=1 设置多少次full gc后进行内存压缩（前提UseCMSCompactAtFullCollection已经开启，默认值0，表示每次进入Full GC时都进行碎片整理），由于并发收集器不对内存空间进行压缩、整理，所以运行一段时间以后会产生"碎片"。
 
     G1收集器
         当今收集器技术发展的最前沿成果之一
@@ -152,7 +160,7 @@ HotSpot的算法实现
         相关设置：-XX:PretenureSizeThreshold
 
     长期存活的对象将进入老年代
-        对象年龄（Age）：每进行一次Minor GC 时加一。
+        对象年龄（Age）：每进行一次Minor GC 后仍然存活，并且能被Survivor容纳，移动到Survivor中年龄设为1，熬过一次Minor GC，年龄加1，当年龄增加到一定程度（默认15）时晋升大老年代。
         相关设置：-XX:MaxTenuringThreshold
 
     动态对象年龄判断
