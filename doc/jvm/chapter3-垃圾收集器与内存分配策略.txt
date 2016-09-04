@@ -160,7 +160,7 @@ HotSpot的算法实现
         相关设置：-XX:PretenureSizeThreshold
 
     长期存活的对象将进入老年代
-        对象年龄（Age）：每进行一次Minor GC 时加一。
+        对象年龄（Age）：每进行一次Minor GC 后仍然存活，并且能被Survivor容纳，移动到Survivor中年龄设为1，熬过一次Minor GC，年龄加1，当年龄增加到一定程度（默认15）时晋升大老年代。
         相关设置：-XX:MaxTenuringThreshold
 
     动态对象年龄判断
