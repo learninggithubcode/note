@@ -41,6 +41,11 @@
       <artifactId>spring-web</artifactId>
       <version>${spring.version}</version>
     </dependency>
+    <dependency>
+      <groupId>net.mindview.util</groupId>
+      <artifactId>net.mindview.util</artifactId>
+      <version>1</version>
+    </dependency>
   </dependencies>
   <build>
     <finalName>note</finalName>

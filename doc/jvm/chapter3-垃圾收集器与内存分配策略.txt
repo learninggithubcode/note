@@ -142,7 +142,7 @@ HotSpot的算法实现
     -XX:MaxGCPauseMillis   	设置GC的最大停顿时间，在Parallel Scavenge 收集器下有效
     -XX:CMSInitiatingOccupancyFraction  设置CMS收集器在老年代空间被使用多少后出发垃圾收集，默认值为68%，仅在CMS收集器时有效，-XX:CMSInitiatingOccupancyFraction=70
     -XX:+UseCMSCompactAtFullCollection    由于CMS收集器会产生碎片，此参数设置在垃圾收集器后是否需要一次内存碎片整理过程，仅在CMS收集器时有效
-    -XX:+CMSFullGCBeforeCompaction   设置CMS收集器在进行若干次垃圾收集后再进行一次内存碎片整理过程，前提是UseCMSCompactAtFullCollection已经开启
+    -XX:CMSFullGCsBeforeCompaction=1   设置CMS收集器在进行若干次垃圾收集后再进行一次内存碎片整理过程，前提是UseCMSCompactAtFullCollection已经开启
 
 内存分配与回收策略
 
