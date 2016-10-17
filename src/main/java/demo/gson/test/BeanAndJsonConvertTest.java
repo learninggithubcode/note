@@ -1,7 +1,5 @@
 package demo.gson.test;
 
-
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import demo.gson.entity.Book;
@@ -16,28 +14,30 @@ public class BeanAndJsonConvertTest
 {
     public static void main(String[] args)
     {
-
+        
         Student stu = createStuden();
-
+        
         // Gson类：解析json的最基础的工具类
         Gson gson = new Gson();
-
+        
         // bean --> json
         String json = gson.toJson(stu);
         System.out.println("bean->json: " + json);
-
+        
         // json --> bean
         Student s = gson.fromJson(json, Student.class);
         System.out.println("json->bean: " + s);
-
+        
         // 将json转换成复杂类型的bean,需要使用TypeToken
         // 将json转换成List
-        String listJson = "[{\"id\":\"BZ001\",\"name\":\"Java开发指南\",\"isNew\":false},{\"id\":\"BZ002\",\"name\":\"SQL权威指南\",\"isNew\":true},{\"id\":\"BZ003\",\"name\":\"Spring开发指南\",\"isNew\":false}]";
-        List list = gson.fromJson(listJson, new TypeToken<List>(){}.getType());
-
-
+        String listJson =
+            "[{\"id\":\"BZ001\",\"name\":\"Java开发指南\",\"isNew\":false},{\"id\":\"BZ002\",\"name\":\"SQL权威指南\",\"isNew\":true},{\"id\":\"BZ003\",\"name\":\"Spring开发指南\",\"isNew\":false}]";
+        List list = gson.fromJson(listJson, new TypeToken<List>()
+        {
+        }.getType());
+        
     }
-
+    
     private static Student createStuden()
     {
         Student stu = new Student();
@@ -52,7 +52,7 @@ public class BeanAndJsonConvertTest
         stu.setBooks(books);
         return stu;
     }
-
+    
     public static boolean isMobile(String str)
     {
         Pattern p = null;
@@ -64,13 +64,3 @@ public class BeanAndJsonConvertTest
         return b;
     }
 }
-
-
-
-
-
-
-
-
-
-

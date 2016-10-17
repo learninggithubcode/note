@@ -1,0 +1,169 @@
+IoC容器概述
+
+1、IoC概述
+
+1.1 概述
+    IoC（控制反转：InverseofControl）是Spring容器的内核，AOP、声明式事务等功能在此基础上开花结果。
+    某一接口具体实现类的选择控制权从调用类中移除，转交给第三方决定。
+
+    因为IoC确实不够开门见山，因此业界曾进行了广泛的讨论，最终软件界的泰斗级人物MartinFowler提出了DI（依赖注入：DependencyInjection）的概念用以代替IoC，
+    即让调用类对某一接口实现类的依赖关系由第三方（容器或协作类）注入，以移除调用类对某一接口实现类的依赖。“依赖注入”这个名词显然比“控制反转”直接明了、易于理解。
+
+1.2 IoC的类型
+    构造函数注入 和 属性注入。
+
+    构造函数注入
+        提供构造函数
+
+    属性注入
+        提供属性设置方法
+
+1.3 通过容器完成依赖关系的注入
+
+
+2、相关的java基础知识
+
+
+3、资源访问利器
+
+    1、资源抽象接口
+    Resource
+        boolean exists()：资源是否存在。
+        boolean isOpen()：资源是否打开。
+        URL getURL() throws IOException：如果底层资源可以表示成URL，该方法返回对应的URL对象。
+        File getFile() throws IOException：如果底层资源可以表示成文件，该方法返回对应的File对象。
+        InputStream getInputStream() throws IOException：返回资源对应的输入流。
+
+    Resource和实现类的关系：
+                                                                    Resource
+                                                                 AbstractResource
+    ByteArrayResource  InputStreamResource  ClassPathResource  PortletContextResource  DescriptiveResource  ServletContextResource  FileSystemResource  UrlResource
+
+    常用实现类的说明：
+    ByteArrayResource：二进制数组表示的资源，二进制数组资源可以在内存中通过程序构造；
+    ClassPathResource：类路径下的资源，资源以相对于类路径的方式表示；
+    FileSystemResource：文件系统资源，资源以文件系统路径的方式表示，如D:/conf/bean.xml等；
+    InputStreamResource：以输入流返回表示的资源；
+    ServletContextResource：为访问Web容器上下文中的资源而设计的类，负责以相对于Web应用根目录的路径加载资源，它支持以流和URL的方式访问，在WAR解包的情况下，
+        也可以通过File的方式访问，该类还可以直接从JAR包中访问资源；
+    UrlResource：Url封装了java.net.URL，它使用户能够访问任何可以通过URL表示的资源， 如文件系统的资源、HTTP资源、FTP资源等。
+
+    2、资源加载
+        资源地址表达式
+
+        spring支持的地址前缀：
+            地址前缀                示例                                  对应资源类型
+            classpath:      classpath:com/test/beans.xml            从类路径中加载资源，classpath:和classpath:/是等价的。资源文件可以在jar或zip类包中。
+            file:           file:/conf/test/beans.xml               使用UrlResource从文件系统目录中装载资源，可以采用绝对或相对路径。
+            http://         http://www.xxx.com/beans.xml            使用UrlResource从Web服务器中装载资源。
+            ftp://          ftp://www.xxx.com/beans.xml             使用UrlResource从FTP服务器中装载资源。
+            没有前缀         com/test/beans.xml                      根据ApplicationContext具体实现类采用对应的类型的Resource。
+
+        classpath*:假设有多个jar包或文件系统类路径都拥有一个相同的包名，classpath:只会在第一个加载的包名下查找，而classpath*:会扫描所有这些jar包及类路径下出现的这个包名。这对分模块打包非常有用。
+
+        Ant风格资源地址支持3种匹配符：
+            ?：匹配文件名中的一个字符；classpath:com/t?st.xml
+            *：匹配文件名中任意个字符；file:D:/conf/*.xml
+            **： 匹配多层路径；classpath:com/**/test.xml
+
+        ---
+
+        资源加载器
+
+        资源加载器接口及实现类：
+        {
+            ResourceLoader (interface)                  --------依赖-------------->     Resource (interface)
+            ( getResource(String location):Resource )                     ( getFile():File )
+                     ^
+                     |
+                继承（相当于继承）
+                     |
+            ResourcePatternResolver (interface)
+            ( getResources(String locationPattern):Resource[] )
+                     ^
+                     |
+                实现（相当于接口实现）
+                     |
+            PathMatchingResourcePatternResolver (class)
+        }
+
+
+4、BeanFactory和ApplicationContext
+    BeanFactory：Spring框架的基础设施，面向spring本身；ApplicationContext：应用上下文，基于BeanFactory，面向spring框架的开发者。
+
+    BeanFactory
+        类的通用工厂
+
+        BeanFactory类继承体系：
+        {
+            BeanFactory                 <——继承——————————————  AutowireCapableBeanFactory (interface)
+                     ^                                                                                           ^
+                     | ——————————————                                                              |
+                     |                            |                                                              |
+                    继承                         继承                                                             |
+                     |                            |                                                              |
+            ListableBeanFactory         HierarchicalBeanFactory                SingletonBeanRegistry             |
+                     ^                            ^                                      ^                       |
+                     |                            |                                      |                       |
+                    继承                         继承                                    实现                     |
+                     |                            |                                      |                       |
+                     |                  ConfigurableBeanFactory ***            DefaultSingletonBeanRegistry      |
+                     |                            ^    ^                                 ^                       |
+                     |                            |    | — — — — —— ——  — —    |                       |
+                     |                           继承                             实现   继承                     |
+                     |—————————————  |                                |     |                       |
+                                               |  |                                |     |                       |
+                                        ConfigurableListableBeanFactory        AbstractBeanFactory               |
+                                                               ^                       ^                         |
+                                                               |                       |                         |
+                                                               |                      继承                       |
+                                                               |                       |                         |
+                                                               |         AbstractAutowireCapableBeanFactory  ------
+                                                               |                       ^
+                                                               |-----------------      |
+                                                                              实现    继承
+                                                                                |      |
+                          BeanDefinitionRegistry <----------实现--------- DefaultListableBeanFactory
+                                                                                       ^
+                                                                                       |
+                                                                                      继承
+                                                                                       |
+                                                                                 XmlBeanFactory
+        }
+        说明：
+        {
+            ListableBeanFactory: 该接口定义了访问容器中Bean基本信息的若干方法，如查看Bean的个数、获取某一类型Bean的配置名、查看容器中是否包括某一Bean等方法。
+            HierarchicalBeanFactory: 父子级联IoC容器的接口，子容器可以通过接口方法访问父容器。
+            ConfigurableBeanFactory: 是一个重要的接口，增强了IoC容器的可定制性，它定义了设置类装载器、属性编辑器、容器初始化后置处理器等方法。
+            AutowireCapableBeanFactory: 定义了将容器中的Bean按某种规则（如按名字匹配、按类型匹配等）进行自动装配的方法。
+            SingletonBeanRegistry: 定义了允许在运行期间向容器注册单实例Bean的方法。
+            BeanDefinitionRegistry: Spring配置文件中每一个<bean>节点元素在Spring容器里都通过一个BeanDefinition对象表示，它描述了Bean的配置信息。
+                而BeanDefinitionRegistry接口提供了向容器手工注册BeanDefinition对象的方法。
+        }
+
+
+    ApplicationContext
+        ApplicationContext 由 BeanFactory 派生而来， 提供了更多面向实际应用的功能。
+
+
+
+5、Bean的生命周期
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

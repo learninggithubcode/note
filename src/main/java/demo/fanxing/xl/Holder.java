@@ -1,6 +1,6 @@
 package demo.fanxing.xl;
 
-import demo.fanxing.Holder1;
+//import demo.fanxing.Holder1;
 
 /**
  * ${DESCRIPTION}
@@ -50,9 +50,9 @@ public class Holder<T>
     }
 
     public static void main(String[] args){
-        Holder<Holder1> holder = new Holder<>(new Holder1(), new Holder1(), new Holder1());
-        Holder1 holderA = holder.getA();
-        Holder1 holderB = holder.getB();
-        Holder1 holderC = holder.getC();
+//        Holder<Holder1> holder = new Holder<>(new Holder1(), new Holder1(), new Holder1());
+//        Holder1 holderA = holder.getA();
+//        Holder1 holderB = holder.getB();
+//        Holder1 holderC = holder.getC();
     }
 }
