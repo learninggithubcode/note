@@ -1,0 +1,38 @@
+1. 为能够把查询结果装配为一个对象，应为select语句配置结果类型。
+
+2. 配置类型别名可使用一个简短的名字来代替JAVA类的全限定名，可使用typeAliases元素配置类型别名，且其在主配置文件中的位置应遵循一定的顺序。
+
+3. 可使用package元素为某个包配置别名，此时包中的类的别名即为小写后的类名（不要包名）；但若使用@Alias注解指定了别名（在实体类上），则以注解优先。
+
+4. MyBatis也有内置别名，如int是Integer的别名（全部内置别名请参考MyBatis文档）。
+
+5. 实际上，无论自定义别名还是内置别名，使用时都不区分大小写
+
+Alias       Mapped Type
+_byte       byte
+_long       long
+_short      short
+_int        int
+_integer    int
+_double     double
+_float      float
+_boolean    boolean
+string      String
+byte        Byte
+long        Long
+short       Short
+int         Integer
+integer     Integer
+double      Double
+float       Float
+boolean     Boolean
+date        Date
+decimal     BigDecimal
+bigdecimal  BigDecimal
+object      Object
+map         Map
+hashmap     HashMap
+list        List
+arraylist   ArrayList
+collection  Collection
+iterator    Iterator

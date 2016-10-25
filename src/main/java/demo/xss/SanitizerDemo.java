@@ -1,6 +1,6 @@
 package demo.xss;
 
-import com.google.common.base.Throwables;
+//import com.google.common.base.Throwables;
 import org.owasp.html.*;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.HtmlUtils;
@@ -59,33 +59,34 @@ public class SanitizerDemo
      */
     public static String filterHtmlTags(String drityStr)
     {
-        if (StringUtils.isEmpty(drityStr))
-        {
-            return "";
-        }
-        StringBuffer out = new StringBuffer();
-        try
-        {
-            HtmlStreamRenderer renderer = HtmlStreamRenderer.create(out, new Handler<IOException>()
-            {
-                public void handle(IOException ex)
-                {
-                    Throwables.propagate(ex);
-                }
-            }, new Handler<String>()
-            {
-                public void handle(String x)
-                {
-                    throw new AssertionError(x);
-                }
-            });
-            HtmlSanitizer.sanitize(HtmlUtils.htmlUnescape(drityStr), POLICY_HTML_TAG_DEFINITION.apply(renderer));
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        return HtmlUtils.htmlUnescape(out.toString());
+//        if (StringUtils.isEmpty(drityStr))
+//        {
+//            return "";
+//        }
+//        StringBuffer out = new StringBuffer();
+//        try
+//        {
+//            HtmlStreamRenderer renderer = HtmlStreamRenderer.create(out, new Handler<IOException>()
+//            {
+//                public void handle(IOException ex)
+//                {
+//                    Throwables.propagate(ex);
+//                }
+//            }, new Handler<String>()
+//            {
+//                public void handle(String x)
+//                {
+//                    throw new AssertionError(x);
+//                }
+//            });
+//            HtmlSanitizer.sanitize(HtmlUtils.htmlUnescape(drityStr), POLICY_HTML_TAG_DEFINITION.apply(renderer));
+//        }
+//        catch (Exception e)
+//        {
+//            e.printStackTrace();
+//        }
+//        return HtmlUtils.htmlUnescape(out.toString());
+        return null;
     }
     
 }

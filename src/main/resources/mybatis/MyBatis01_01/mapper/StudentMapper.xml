@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="demo.mybatis.MyBatis01_01.mapper.StudentMapper">
+    
+    <!--useGeneratedKeys="true"表明使用数据库自动生成的主键，
+      keyColumn="id"指定Student表中主键列，keyProperty="id"
+            表明当插入记录后，会把数据库生成的主键值设置到Student对象
+            的id属性中，也就是说，它指定与Student表中的主键列对应的
+      Student实体类中的属性是id这个属性-->
+	<insert id="add" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="demo.mybatis.MyBatis01_01.domain.Student">
+		insert into student(name, gender, major, grade)
+		values(#{name}, #{gender}, #{major}, #{grade})
+	</insert>
+
+</mapper>

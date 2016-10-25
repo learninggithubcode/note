@@ -93,11 +93,6 @@
       <version>2.3.20</version>
     </dependency>
     <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-all</artifactId>
-      <version>1.6.0</version>
-    </dependency>
-    <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
       <version>2.4</version>
@@ -188,11 +183,6 @@
       <version>1.4.3</version>
     </dependency>
     <dependency>
-      <groupId>sendmsg</groupId>
-      <artifactId>sendmsg</artifactId>
-      <version>1.0</version>
-    </dependency>
-    <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
       <version>3.0.1</version>
@@ -257,26 +247,6 @@
       <groupId>org.apache.xmlbeans</groupId>
       <artifactId>xmlbeans</artifactId>
       <version>2.6.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.gexin.rp.sdk</groupId>
-      <artifactId>gexin-rp-sdk-base</artifactId>
-      <version>2.0.0.26</version>
-    </dependency>
-    <dependency>
-      <groupId>com.gexin.rp.sdk</groupId>
-      <artifactId>gexin-rp-sdk-http</artifactId>
-      <version>3.0.0.14</version>
-    </dependency>
-    <dependency>
-      <groupId>com.gexin.rp.sdk</groupId>
-      <artifactId>gexin-rp-sdk-template</artifactId>
-      <version>2.0.0.11</version>
-    </dependency>
-    <dependency>
-      <groupId>com.ygg.common</groupId>
-      <artifactId>ygg-common</artifactId>
-      <version>1.0</version>
     </dependency>
     <dependency>
       <groupId>dom4j</groupId>
@@ -353,6 +323,14 @@
         <includes>
           <include>*.*</include>
           <include>spring/chapter2/*.xml</include>
+          <include>mybatis/MyBatis01_01/*.xml</include>
+          <include>mybatis/MyBatis01_01/mapper/*.xml</include>
+          <include>mybatis/MyBatis01_02/*.xml</include>
+          <include>mybatis/MyBatis01_02/mapper/*.xml</include>
+          <include>mybatis/MyBatis01_03/*.xml</include>
+          <include>mybatis/MyBatis01_03/mapper/*.xml</include>
+          <include>mybatis/MyBatis01_04/*.xml</include>
+          <include>mybatis/MyBatis01_04/mapper/*.xml</include>
         </includes>
         <filtering>true</filtering>
       </resource>
