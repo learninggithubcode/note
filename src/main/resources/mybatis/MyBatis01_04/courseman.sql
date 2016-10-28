@@ -11,6 +11,8 @@ Target Server Version : 50525
 File Encoding         : 65001
 
 Date: 2014-03-12 16:53:05
+
+create database courseman default character set utf8;
 */
 
 SET FOREIGN_KEY_CHECKS=0;

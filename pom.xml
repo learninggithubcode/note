@@ -331,6 +331,10 @@
           <include>mybatis/MyBatis01_03/mapper/*.xml</include>
           <include>mybatis/MyBatis01_04/*.xml</include>
           <include>mybatis/MyBatis01_04/mapper/*.xml</include>
+          <include>mybatis/MyBatis01_05/*.xml</include>
+          <include>mybatis/MyBatis01_05/mapper/*.xml</include>
+          <include>mybatis/MyBatis01_06/*.xml</include>
+          <include>mybatis/MyBatis01_06/mapper/*.xml</include>
         </includes>
         <filtering>true</filtering>
       </resource>
