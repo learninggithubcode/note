@@ -1,0 +1,8 @@
+Spring的bean继承机制
+
+1. 使用abstract="true"来定义抽象bean；
+2. 抽象bean不会被Spring实例化；
+3. 抽象bean可以作为bean继承中的父bean，写上子bean通用的配置
+       信息，供子bean继承，避免每次定义子bean的时候重复配置通用信息。
+       子bean通过parent属性指定从父bean继承，即配置parent属性的值
+       为父bean的id。

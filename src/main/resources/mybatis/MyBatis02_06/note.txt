@@ -1,0 +1,17 @@
+MapperFactoryBean使用，不使用dao
+
+1. 如何从Spring中获取映射器对象（如一个com.abc.mapper.StudentMapper类型的对象）呢？
+
+2. 可在Spring中使用类org.mybatis.spring.mapper.MapperFactoryBean<T>定义bean，此类同样实现了org.springframework.beans.factory.FactoryBean<T>接口，
+    通过mapperInterface属性指定泛型T为我们需要的映射器接口类型（如com.abc.mapper.StudentMapper类型），
+    此类实现的T getObject() 方法（在FactoryBean接口中声明）就能返回一个相应类型的映射器对象。向Spring请求此bean，得到的不是MapperFactoryBean的对象，
+    而是getObject()方法的返回值，也就是这个映射器对象。
+
+3. 这种方式不需要关心SqlSession的打开和关闭，MyBatis-Spring会处理这一切，而且得到的映射器对象是线程安全的，可以直接作为DAO组件注入到Service组件中。
+
+MapperFactoryBean配置
+
+1. MapperFactoryBean继承了类SqlSessionDaoSupport，因此需要给MapperFactoryBean注入一个SqlSessionFactory，或一个SqlSessionTemplate。
+    若两个都被注入，则SqlSessionFactory会被忽略（实际上它接收了SqlSessionFactory后也会利用SqlSessionFactory创建一个SqlSessionTemplate）。
+
+2. 实际上，我们得到的映射器对象，也是调用了SqlSessionTemplate的getMapper方法得到的。
