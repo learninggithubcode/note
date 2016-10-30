@@ -1,0 +1,19 @@
+使用SqlSessionTemplate：
+
+• org.mybatis.spring.SqlSessionTemplate类实现了org.apache.ibatis.session.SqlSession接口，它是由Spring管理的SqlSession，是MyBatis-Spring的核心，
+    应使用它来代替MyBatis对SqlSession的默认实现DefaultSqlSession。
+
+• 可以参与到Spring的事务管理中，当调用执行SQL语句的方法时，包括调用映射器（通过getMapper()方法获得）的方法时，能确保实际使用的SqlSession实例是与当前
+    Spring事务相关联的，而且它是线程安全的。
+
+• 需要一个SqlSessionFactory作为构造方法参数以创建SqlSession实例（实际上SqlSessionTemplate通过代理，最终还是要用到SqlSessionFactory创建的SqlSession实例）。
+
+
+几点注意：
+
+• 在Spring事务范围之外调用SqlSession的任何执行SQL语句的方法，或调用映射器的任何方法，都将被自动提交（无论JDBC Connection是否为自动提交）。
+
+• SqlSessionTemplate管理着SqlSession的生命周期，包括提交、回滚和关闭，所以不能手动调用它的commit、rollback和close方法，否则会抛出UnsupportedOperationException异常。
+
+• 由于SqlSessionTemplate是线程安全的，因此所有的DAO就能共享一个SqlSessionTemplate实例，这样就能节约部分内存。
+

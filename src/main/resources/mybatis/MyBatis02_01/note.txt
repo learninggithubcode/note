@@ -1,0 +1,8 @@
+集成关键步骤
+
+在Spring中配置SqlSessionFactory：
+① 配置数据源（MyBatis主配置文件（mybatis-config.xml）中的environments元素不再需要。）；
+② 创建SqlSessionFactory。定义bean的类是org.mybatis.spring.SqlSessionFactoryBean，它实现了org.springframework.beans.factory.FactoryBean<T>接口，
+    这是一个工厂bean。此接口声明了方法T getObject() ，这就意味着当从Spring容器中请求这个bean时，得到的不是这个工厂bean本身，而是getObject()方法返回的对象，
+    即这个工厂的产品。在这里，SqlSessionFactoryBean在实现这个接口时，泛型T指定为org.apache.ibatis.session.SqlSessionFactory，所以getObject() 方法返回的是SqlSessionFactory实例。
+③ 配置SqlSessionFactory中的configLocation等属性。
