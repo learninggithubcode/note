@@ -1,0 +1,11 @@
+使用SqlSessionDaoSupport
+
+• 类org.mybatis.spring.support.SqlSessionDaoSupport继承了类org.springframework.dao.support.DaoSupport，它是一个抽象类，可以作为DAO的父类。
+
+• 它需要一个SqlSessionTemplate或一个SqlSessionFactory，若两者都设置了，则SqlSessionFactory会被忽略
+    （实际上它接收了SqlSessionFactory后也会利用SqlSessionFactory创建一个SqlSessionTemplate）。
+
+• 注意：自mybatis-spring-1.2.0以来，setSqlSessionTemplate和setSqlSessionFactory两个方法上的@Autowired注解被删除，这就意味着从SqlSessionDaoSupport继承来的DAO类，
+    不能被自动注入SqlSessionTemplate或SqlSessionFactory对象。解决办法是在我们的DAO中覆盖这两个方法之一，并加上@Autowired注解。
+
+• 调用它的getSqlSession()方法获取SqlSession对象（实际上就是SqlSessionTemplate对象）。
