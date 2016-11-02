@@ -1,0 +1,12 @@
+MapperScannerConfigurer配置（4）
+
+1. 若存在多个SqlSessionFactory，自动装配就不再可用，此时应明确指定引用哪个SqlSessionFactory或SqlSessionTemplate；
+
+2. 若在Spring中使用了属性占位符从外部引用数据库连接的相关配置，则通过sqlSessionFactory属性或sqlSessionTemplate属性直接引用SqlSessionFactory或SqlSessionTemplate会出错。
+
+3. 原因是Spring在处理完MapperScannerConfigurer之后，还没有处理属性占位符（把属性占位符替换为相应的值），这就意味着此时数据库连接所需的配置信息还没有被正确替换，
+    直接引用SqlSessionFactory（它需要数据库连接）自然出错。
+
+4. 解决办法：
+    ，自动装配SqlSessionFactory或SqlSessionTemplate（当存在多个SqlSessionFactory时此方法失效）；
+    ，通过sqlSessionFactoryBeanName属性或sqlSessionTemplateBeanName属性指定要使用的SqlSessionFactory或SqlSessionTemplate的bean名称。

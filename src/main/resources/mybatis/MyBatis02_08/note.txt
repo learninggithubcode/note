@@ -1,0 +1,9 @@
+MapperScannerConfigurer配置 1
+
+1.若在Spring的xml文件中手工配置每个映射器（mapper），则当映射器较多时，就显得很繁琐；
+
+2.mybatis-spring为我们提供了类org.mybatis.spring.mapper.MapperScannerConfigurer，可配置此类扫描特定的包（以及其子包）中至少有一个方法的接口，
+    并把它们注册为MapperFactoryBean，成批地帮助我们创建映射器。
+
+3.当只有一个SqlSessionFactory时，无需明确指定引用SqlSessionFactory，MapperScannerConfigurer对它所创建的所有bean都支持自动装配，
+    因此它们都会被注入合适的SqlSessionFactory或SqlSessionTemplate

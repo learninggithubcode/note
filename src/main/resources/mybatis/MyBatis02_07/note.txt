@@ -1,3 +1,10 @@
+MapperFactoryBean配置
+
+1. MapperFactoryBean继承了类SqlSessionDaoSupport，因此需要给MapperFactoryBean注入一个SqlSessionFactory，或一个SqlSessionTemplate。
+    若两个都被注入，则SqlSessionFactory会被忽略（实际上它接收了SqlSessionFactory后也会利用SqlSessionFactory创建一个SqlSessionTemplate）。
+2. 实际上，我们得到的映射器对象，也是调用了SqlSessionTemplate的getMapper方法得到的。
+
+
 Spring的bean继承机制
 
 1. 使用abstract="true"来定义抽象bean；

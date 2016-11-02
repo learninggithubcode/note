@@ -359,10 +359,21 @@
           <include>mybatis/MyBatis02_06/mapper/*.xml</include>
           <include>mybatis/MyBatis02_07/*.xml</include>
           <include>mybatis/MyBatis02_07/mapper/*.xml</include>
-          <include>mybatis/MyBatis02_08*.xml</include>
+          <include>mybatis/MyBatis02_08/*.xml</include>
           <include>mybatis/MyBatis02_08/mapper/*.xml</include>
           <include>mybatis/MyBatis02_09/*.xml</include>
           <include>mybatis/MyBatis02_09/mapper/*.xml</include>
+          <include>mybatis/MyBatis02_10/*.xml</include>
+          <include>mybatis/MyBatis02_10/mapper/*.xml</include>
+          <include>mybatis/MyBatis02_11/*.xml</include>
+          <include>mybatis/MyBatis02_11/*.properties</include>
+          <include>mybatis/MyBatis02_11/mapper/*.xml</include>
+          <include>mybatis/MyBatis02_12/*.xml</include>
+          <include>mybatis/MyBatis02_12/*.properties</include>
+          <include>mybatis/MyBatis02_12/mapper/*.xml</include>
+          <include>mybatis/MyBatis02_13/*.xml</include>
+          <include>mybatis/MyBatis02_13/*.properties</include>
+          <include>mybatis/MyBatis02_13/mapper/*.xml</include>
         </includes>
         <filtering>true</filtering>
       </resource>

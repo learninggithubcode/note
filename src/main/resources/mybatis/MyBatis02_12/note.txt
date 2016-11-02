@@ -1,0 +1,14 @@
+使用mybatis:scan元素扫描创建映射器
+
+ <mybatis:scan/> 元素：作用及用法与MapperScannerConfigurer很相似，在Spring的xml配置文件中使用，需先引入mybatis命名空间及相应的schema文件，属性如下：
+
+1. base-package：指定要扫描的包，可指定多个包，包之间用逗号或分号分割。将搜索这些包及它们的子包下（递归搜索）至少有一个方法的接口并把它们创建为MapperFactoryBean，
+这些MapperFactoryBean支持自动装配SqlSessionFactory或SqlSessionTemplate。
+
+2. factory-ref与template-ref：分别对应MapperScannerConfigurer的sqlSessionFactoryBeanName属性和sqlSessionTemplateBeanName属性，
+    当Spring容器中存在多个SqlSessionFactory时，自动装配不再可用，需明确指定引用的SqlSessionFactory或SqlSessionTemplate的bean名称。
+
+3. annotation和marker-interface：支持映射器过滤，分别对应MapperScannerConfigurer的annotationClass属性和markerInterface属性，
+    功能完全一致。同样，若两个属性都设置，则满足任何一个条件的接口都将被创建为映射器bean；若这两个属性都没有设置，则所有的接口都将被创建为映射器bean。
+
+4. 映射器bean命名规则与前面的MapperScannerConfigurer完全一致，包括可以使用@Repository注解给映射器bean指定名称。

@@ -1,0 +1,10 @@
+MapperScannerConfigurer配置（2）
+
+ 几点说明：
+1. 映射器bean的命名问题：采用Spring针对自动侦测到的组件的默认命名策略，亦即把类/接口的非全限定名（即不要包名）的首字母小写，其它不变，作为映射器bean的名字。
+    例如，映射器接口com.abc.mapper.StudentMapper被扫描后创建的映射器bean名为studentMapper。
+
+2. 可以使用@Repository注解给映射器bean指定名称，如可使用@Repository("myStudentrMapper")来标注StudentMapper接口，指定生成的映射器bean名为myStudentrMapper。
+
+3. @Autowired注解采用byType的自动装配策略，对于存在同一类型的多个bean实例的情况，这种策略会失效。此时，可配合使用@Qualifier注解明确指定被装配的bean实例；
+    或者可单独使用@Resource注解，通过其name属性明确指定协作者bean。

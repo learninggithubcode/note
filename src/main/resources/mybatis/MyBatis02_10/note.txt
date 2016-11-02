@@ -1,0 +1,10 @@
+MapperScannerConfigurer配置（3）
+
+ 映射器过滤：
+1. annotationClass属性指定一个注解，配置此属性后，MapperScannerConfigurer将只注册basePackage下被此注解标注的映射器接口；
+
+2. markerInterface属性指定一个父接口，配置此属性后，MapperScannerConfigurer将只注册basePackage下继承自此接口的映射器接口。
+
+3. 若两个属性都配置，则满足任何一个标准的接口都会被注册，亦即是两者的并集，而非交集。
+
+4. 若这两个属性都不设置，则basePackage下所有的接口都会被注册。
