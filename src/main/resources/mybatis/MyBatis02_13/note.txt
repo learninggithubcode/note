@@ -1,0 +1,12 @@
+使用@MapperScan注解扫描创建映射器（1）
+
+ 当在Spring中使用Java类提供bean配置信息（@Configuration注解）时，可采用@MapperScan注解扫描创建映射器，其作用及用法与mybatis:scan元素很相似。
+    通过Spring的XML配置文件使用配置类的步骤如下：
+
+    ① 编写配置类：通常把存放配置信息的类取名为XxxConfig，如AppConfig，并使用@Configuration注解标注此类。
+
+    ② 在XML配置文件中引入<context:annotation-config />，并使用配置类定义一个bean。
+
+    ③ 另外一种更简单的方式：使用<context:component-scan/>元素扫描配置类所在的包即可，不再需要使用配置类定义bean。
+
+ 在配置类中使用@MapperScan注解，指定要扫描的包，包中的接口将被注册为映射器bean。

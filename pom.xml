@@ -374,6 +374,33 @@
           <include>mybatis/MyBatis02_13/*.xml</include>
           <include>mybatis/MyBatis02_13/*.properties</include>
           <include>mybatis/MyBatis02_13/mapper/*.xml</include>
+          <include>mybatis/MyBatis02_14/*.xml</include>
+          <include>mybatis/MyBatis02_14/*.properties</include>
+          <include>mybatis/MyBatis02_14/mapper/*.xml</include>
+          <include>mybatis/MyBatis02_15/*.xml</include>
+          <include>mybatis/MyBatis02_15/*.properties</include>
+          <include>mybatis/MyBatis02_15/mapper/*.xml</include>
+          <include>mybatis/MyBatis02_17/*.xml</include>
+          <include>mybatis/MyBatis02_17/*.properties</include>
+          <include>mybatis/MyBatis02_17/mapper/*.xml</include>
+          <include>mybatis/MyBatis02_18/*.xml</include>
+          <include>mybatis/MyBatis02_18/*.properties</include>
+          <include>mybatis/MyBatis02_18/mapper/*.xml</include>
+          <include>mybatis/MyBatis02_20/*.xml</include>
+          <include>mybatis/MyBatis02_20/*.properties</include>
+          <include>mybatis/MyBatis02_20/mapper/*.xml</include>
+          <include>mybatis/MyBatis02_21/*.xml</include>
+          <include>mybatis/MyBatis02_21/*.properties</include>
+          <include>mybatis/MyBatis02_21/mapper/*.xml</include>
+          <include>mybatis/MyBatis02_22/*.xml</include>
+          <include>mybatis/MyBatis02_22/*.properties</include>
+          <include>mybatis/MyBatis02_22/mapper/*.xml</include>
+          <include>mybatis/MyBatis02_26/*.xml</include>
+          <include>mybatis/MyBatis02_26/*.properties</include>
+          <include>mybatis/MyBatis02_26/mapper/*.xml</include>
+          <include>mybatis/MyBatis02_27/*.xml</include>
+          <include>mybatis/MyBatis02_27/*.properties</include>
+          <include>mybatis/MyBatis02_27/mapper/*.xml</include>
         </includes>
         <filtering>true</filtering>
       </resource>

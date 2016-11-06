@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="demo.mybatis.MyBatis02_22.mapper.TeacherMapper">
+
+    <!--教师实体映射-->
+    <resultMap id="teacherResultMap" type="Teacher">
+        <id property="id" column="t_id"/>
+        <result property="name" column="t_name"/>
+        <result property="gender" column="t_gender"/>
+        <result property="researchArea" column="t_research_area"/>
+        <result property="title" column="t_title"/>
+    </resultMap>
+
+    <!--TeacherMapper接口中getById方法对应的SQL语句 -->
+    <select id="getById" parameterType="int"  resultMap="teacherResultMap">
+        select t.id t_id, t.name t_name, t.gender t_gender,
+        t.research_area t_research_area, t.title t_title
+        from teacher t where t.id=#{id}
+    </select>
+
+</mapper>

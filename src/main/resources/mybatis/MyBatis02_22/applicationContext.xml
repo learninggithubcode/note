@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mybatis="http://mybatis.org/schema/mybatis-spring" xmlns:p="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+			http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd"
+       default-lazy-init="false">
+
+    <context:component-scan base-package="demo.mybatis.MyBatis02_22.service"/>
+
+    <!-- <context:property-placeholder location="classpath:/mybatis/MyBatis02_22/jdbc.properties"/> -->
+    <context:property-override location="classpath:/mybatis/MyBatis02_22/jdbc.properties"/>
+
+   <!--数据源配置，本示例采用Apache DBCP数据源，应预先把DBCP的jar包及其所依赖的
+   jar包复制到工程的lib目录下，并添加到Build Path中。-->
+  <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+      <!--<property name="driverClassName" value="${jdbc.driverClassName}"/>-->
+      <!--<property name="url" value="${jdbc.url}"/>-->
+      <!--<property name="username" value="${jdbc.username}"/>-->
+      <!--<property name="password" value="${jdbc.password}"/>-->
+
+  </bean>
+  
+  <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+      <!-- 指定要用到的数据源 -->
+      <property name="dataSource" ref="dataSource" />
+      <!-- 指定MyBatis的主配置文件，从类路径中加载，相对于类的根路径 -->
+      <property name="configLocation" value="classpath:/mybatis/MyBatis02_22/mybatis-config.xml"/>
+      <!-- 搜索包，自动取包中不包括包名的类名作为类型别名，可指定多个包， 包之间用逗号或分号分割 -->
+      <property name="typeAliasesPackage" value="demo.mybatis.MyBatis02_22.domain"/>
+      <!-- 使用通配符的形式指定多个映射文件，从类路径中加载映射文件，相对于类的根路径  -->
+      <property name="mapperLocations" value="classpath:mybatis/MyBatis02_22/mapper/*.xml"/>
+  </bean>
+
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg ref="sqlSessionFactory" />
+    </bean>
+
+    <!--<context:annotation-config  />-->
+    <!--<bean class="demo.mybatis.MyBatis02_22.config.MyBatisMapperScanConfig" />-->
+    <!--<context:component-scan base-package="demo.mybatis.MyBatis02_22.config"/>-->
+
+    <mybatis:scan base-package="demo.mybatis.MyBatis02_22.dao,demo.mybatis.MyBatis02_22.mapper" template-ref="sqlSessionTemplate"/>
+
+    <!-- 配置事务管理器 -->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+    <!-- 定义事务管理增强，transaction-manager指定引用的事务管理器。默认查找名为transactionManager的事务管理器，所以如果事务管理器命名为
+          transactionManager，可以不指定transaction-manager属性的值-->
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+        <tx:attributes>
+            <!-- get*表示匹配以get开头的方法，其余的与此类似 -->
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="find*" read-only="true"/>
+            <!-- rollback-for指定触发事务回滚的异常 -->
+            <tx:method name="add*" />
+            <tx:method name="update*" />
+            <tx:method name="del*" />
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config>
+        <!-- public * demo.mybatis.MyBatis02_22.service.*.*(..)表示匹配demo.mybatis.MyBatis02_22.service包下
+                           所有类的、任意返回类型的所有public方法，第一个*表示任意返回类型，(..)表示方法入参可以是任意类型、任意多个 -->
+        <aop:pointcut id="serviceMethods" expression="execution(public * demo.mybatis.MyBatis02_22.service.*.*(..))"/>
+
+        <!-- 把txAdvice事务管理增强织入到serviceMethods切点中 -->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods"/>
+    </aop:config>
+
+</beans>

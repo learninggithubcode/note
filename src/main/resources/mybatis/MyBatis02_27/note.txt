@@ -1,0 +1,5 @@
+ Spring事务管理
+
+声明式事务管理
+
+只针对 非检查型异常做回滚（例如RruntimeException及其子类），非检查型异常不做回滚（如SQLExcption），可以用rollbackFor来指定异常

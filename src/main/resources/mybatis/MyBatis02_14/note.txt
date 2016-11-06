@@ -1,0 +1,7 @@
+使用@MapperScan注解扫描创建映射器（2）
+
+ @MapperScan的属性：
+    ① basePackages（value）：指定要扫描的包，可指定多个包。将搜索这些包及它们的子包下（递归搜索）至少有一个方法的接口并把它们创建为MapperFactoryBean，
+    这些MapperFactoryBean支持自动装配SqlSessionFactory或SqlSessionTemplate。
+
+    ② sqlSessionFactoryRef和sqlSessionTemplateRef：当Spring容器中存在多个SqlSessionFactory时，自动装配不再可用，需明确指定引用的SqlSessionFactory或SqlSessionTemplate的bean名称。

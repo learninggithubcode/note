@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <!-- 为包配置类型别名，此时包中的类的别名 即为小写后的类名（不要包名） -->
+    <!--<typeAliases>-->
+       <!--<package name="demo.mybatis.MyBatis02_13.domain" />-->
+    <!--</typeAliases>-->
+
+    <!--<environments default="development">-->
+        <!-- id必须唯一 -->
+        <!--<environment id="development">-->
+             <!--事务管理器，这里直接使用jdbc的事务管理能力 -->
+            <!--<transactionManager type="jdbc" />-->
+            <!-- 数据源配置 -->
+            <!--<dataSource type="POOLED">-->
+                <!--<property name="driver" value="com.mysql.jdbc.Driver" />-->
+                <!--<property name="url" value="jdbc:mysql://localhost/courseman" />-->
+                <!--<property name="username" value="root" />-->
+                <!--<property name="password" value="123456" />-->
+            <!--</dataSource>-->
+        <!--</environment>-->
+    <!--</environments>-->
+
+    <!-- 采用相对类路径 -->
+    <!--<mappers>-->
+        <!--<mapper resource="mybatis/MyBatis02_13/mapper/StudentMapper.xml" />-->
+    <!--</mappers>-->
+</configuration>
