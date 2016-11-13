@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="demo.mybatis.MyBatis03_01.mapper.StudentMapper">
+		 
+    <!--useGeneratedKeys="true"表明使用数据库自动生成的主键，
+      keyColumn="id"指定Student表中主键列，keyProperty="id"
+            表明当插入记录后，会把数据库生成的主键值设置到Student对象
+            的id属性中，也就是说，它指定与Student表中的主键列对应的
+      Student实体类中的属性是id这个属性-->
+	<insert id="add" useGeneratedKeys="true" keyColumn="id"
+		keyProperty="id" 
+		parameterType="student">
+		insert into student(name, gender, major, grade)
+		values(#{name}, #{gender}, #{major}, #{grade})
+	</insert>
+	
+	<delete id="delById" parameterType="int">
+	    delete from student where id = #{id}
+	</delete>
+	
+	<!-- 学生实体的属性与学生表列名之间的映射 -->
+	<resultMap id="studentResultMap" type="student">
+	    <id property="id" column="s_id"/>
+	    <result property="name" column="s_name"/>
+	    <result property="gender" column="s_gender"/>
+	    <result property="major" column="s_major"/>
+	    <result property="grade" column="s_grade"/>
+	    <!-- 通过命名空间.resultMap元素的id的形式引用com.abc.mapper.TeacherMapper 命名空间下的teacherResultMap -->
+	    <association property="supervisor" resultMap="demo.mybatis.MyBatis03_01.mapper.TeacherMapper.teacherResultMap">
+	       <!-- <id property="id" column="t_id"/>
+	    <result property="name" column="t_name"/>
+	    <result property="gender" column="t_gender"/>
+	    <result property="researchArea" column="t_research_area"/>
+	    <result property="title" column="t_title"/> -->
+	    </association>
+	</resultMap>
+	
+	<!-- 根据学生id查询学生对象 -->
+	<select id="getById" parameterType="_INT" resultMap="studentResultMap">
+	    select s.id s_id,
+			s.name s_name,
+			s.gender s_gender,
+			s.major s_major,
+			s.grade s_grade,
+			t.id t_id,
+			t.name t_name,
+			t.gender t_gender,
+			t.research_area t_research_area,
+			t.title t_title
+	    from student s left join teacher t
+	    on s.supervisor_id = t.id
+	    where s.id = #{id}
+	</select>
+	
+	<!-- 查找所有学生，此select语句返回一个集合，但  resultMap映射的应该是集合中元素的类型，即Student， 不是集合本身的类型-->
+	<select id="getAll" parameterType="_int" resultMap="studentResultMap">
+	    select s.id s_id,
+			s.name s_name,
+			s.gender s_gender,
+			s.major s_major,
+			s.grade s_grade,
+			t.id t_id,
+			t.name t_name,
+			t.gender t_gender,
+			t.research_area t_research_area,
+			t.title t_title
+	    from student s left join teacher t
+	    on s.supervisor_id = t.id
+	</select>
+	
+	<!-- 根据id修改学生的相关信息 -->
+	<update id="update" parameterType="student">
+	    update student set name=#{name},
+	    gender = #{gender},
+	    major = #{major},
+	    grade = #{grade}
+	    where id=#{id}
+	</update>
+
+</mapper>

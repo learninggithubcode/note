@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace的值是对应的映射器接口的完整名称 -->
+<mapper namespace="demo.mybatis.MyBatis06_01.mapper.TeacherMapper">
+
+	<resultMap id="simpleTeacher" type="Teacher">
+		<id property="id" column="t_id" />
+		<result property="name" column="t_name" />
+		<result property="gender" column="t_gender" />
+		<result property="researchArea" column="t_research_area" />
+		<result property="title" column="t_title" />
+	</resultMap>
+
+	<!--教师实体映射，映射其简单属性及指导的学生，采用嵌套的结果映射形式 -->
+	<resultMap id="teacherResultMap" type="Teacher" extends="simpleTeacher">
+		<!-- arraylist是MyBatis的内置类型别名，代表java中的 java.util.ArrayList ofType="student"此时可以不要-->
+		<collection property="supStudents" javaType="arraylist" select="selectStuForSup" column="t_id">
+		</collection>
+	</resultMap>
+
+	<!--TeacherMapper接口中getById方法对应的SQL语句 -->
+	<select id="getById" parameterType="int" resultMap="teacherResultMap">
+		select
+			t.id t_id,
+			t.name t_name,
+			t.gender t_gender,
+			t.research_area t_research_area,
+			t.title t_title
+		from teacher t
+		where t.id=#{id}
+	</select>
+
+	<!-- 根据指导教师的id查询其指导的学生 -->
+	<select id="selectStuForSup" resultMap="demo.mybatis.MyBatis06_01.mapper.StudentMapper.simpleStudent">
+		select s.id s_id,
+			s.name s_name,
+			s.gender s_gender,
+			s.major s_major,
+			s.grade s_grade
+		from student s
+		where s.supervisor_id = #{supervisorId}
+	</select>
+
+	<select id="findTeacherByPage" resultMap="simpleTeacher">
+		select
+			t.id t_id,
+			t.name t_name,
+			t.gender t_gender,
+			t.research_area t_research_area,
+			t.title t_title
+		from teacher t
+-- 		where t.gender = ${params.gender} <!-- 存在注入攻击风险 -->
+		where t.gender = #{params.gender}
+		order by ${params.sort} ${params.dir}
+		limit #{start},#{limit}
+	</select>
+
+
+</mapper>

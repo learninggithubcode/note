@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="
+    		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+			http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd"
+	default-lazy-init="false">
+
+	<context:component-scan base-package="demo.mybatis.MyBatis06_01.service"/>
+
+	<!-- <context:property-placeholder location="classpath:/mybatis/MyBatis06_01/jdbc.properties"/> -->
+	<context:property-override location="classpath:/mybatis/MyBatis06_01/jdbc.properties"/>
+
+	<!--数据源配置，本示例采用Apache DBCP数据源，应预先把DBCP的jar包及其所依赖的
+    jar包复制到工程的lib目录下，并添加到Build Path中。-->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<!--<property name="driverClassName" value="${jdbc.driverClassName}"/>-->
+		<!--<property name="url" value="${jdbc.url}"/>-->
+		<!--<property name="username" value="${jdbc.username}"/>-->
+		<!--<property name="password" value="${jdbc.password}"/>-->
+
+	</bean>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 指定要用到的数据源 -->
+		<property name="dataSource" ref="dataSource" />
+		<!-- 指定MyBatis的主配置文件，从类路径中加载，相对于类的根路径 -->
+		<property name="configLocation" value="classpath:/mybatis/MyBatis06_01/mybatis-config.xml"/>
+		<!-- 搜索包，自动取包中不包括包名的类名作为类型别名，可指定多个包， 包之间用逗号或分号分割 -->
+		<property name="typeAliasesPackage" value="demo.mybatis.MyBatis06_01.domain"/>
+		<!-- 使用通配符的形式指定多个映射文件，从类路径中加载映射文件，相对于类的根路径  -->
+		<property name="mapperLocations" value="classpath:mybatis/MyBatis06_01/mapper/*.xml"/>
+	</bean>
+
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory" />
+	</bean>
+
+    <!-- 扫描创建映射器bean -->
+	<mybatis:scan base-package="demo.mybatis.MyBatis06_01.mapper" template-ref="sqlSessionTemplate"/>
+
+    <!-- 配置事务管理器 -->
+    <bean id="txManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+          p:dataSource-ref="dataSource"/>
+    
+    <tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/>
+</beans>

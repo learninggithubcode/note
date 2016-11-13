@@ -98,9 +98,9 @@
       <version>2.4</version>
     </dependency>
     <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.17</version>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>2.6.2</version>
     </dependency>
     <dependency>
       <groupId>org.mybatis</groupId>
@@ -401,6 +401,36 @@
           <include>mybatis/MyBatis02_27/*.xml</include>
           <include>mybatis/MyBatis02_27/*.properties</include>
           <include>mybatis/MyBatis02_27/mapper/*.xml</include>
+          <include>mybatis/MyBatis03_01/*.xml</include>
+          <include>mybatis/MyBatis03_01/*.properties</include>
+          <include>mybatis/MyBatis03_01/mapper/*.xml</include>
+          <include>mybatis/MyBatis03_02/*.xml</include>
+          <include>mybatis/MyBatis03_02/*.properties</include>
+          <include>mybatis/MyBatis03_02/mapper/*.xml</include>
+          <include>mybatis/MyBatis04_01/*.xml</include>
+          <include>mybatis/MyBatis04_01/*.properties</include>
+          <include>mybatis/MyBatis04_01/mapper/*.xml</include>
+          <include>mybatis/MyBatis04_02/*.xml</include>
+          <include>mybatis/MyBatis04_02/*.properties</include>
+          <include>mybatis/MyBatis04_02/mapper/*.xml</include>
+          <include>mybatis/MyBatis05_01/*.xml</include>
+          <include>mybatis/MyBatis05_01/*.properties</include>
+          <include>mybatis/MyBatis05_01/mapper/*.xml</include>
+          <include>mybatis/MyBatis05_02/*.xml</include>
+          <include>mybatis/MyBatis05_02/*.properties</include>
+          <include>mybatis/MyBatis05_02/mapper/*.xml</include>
+          <include>mybatis/MyBatis05_03/*.xml</include>
+          <include>mybatis/MyBatis05_03/*.properties</include>
+          <include>mybatis/MyBatis05_03/mapper/*.xml</include>
+          <include>mybatis/MyBatis05_04/*.xml</include>
+          <include>mybatis/MyBatis05_04/*.properties</include>
+          <include>mybatis/MyBatis05_04/mapper/*.xml</include>
+          <include>mybatis/MyBatis05_05/*.xml</include>
+          <include>mybatis/MyBatis05_05/*.properties</include>
+          <include>mybatis/MyBatis05_05/mapper/*.xml</include>
+          <include>mybatis/MyBatis06_01/*.xml</include>
+          <include>mybatis/MyBatis06_01/*.properties</include>
+          <include>mybatis/MyBatis06_01/mapper/*.xml</include>
         </includes>
         <filtering>true</filtering>
       </resource>

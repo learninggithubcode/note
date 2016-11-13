@@ -1,0 +1,3 @@
+MyBatis日志配置之Log4j2方式 使用Log4j2配置日志
+
+LoggerConfig

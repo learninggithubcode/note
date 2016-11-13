@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace的值是对应的映射器接口的完整名称 -->
+<mapper namespace="demo.mybatis.MyBatis04_01.mapper.TeacherMapper">
+
+	<!--教师实体映射，映射其简单属性及指导的学生，采用嵌套的结果映射形式 -->
+	<resultMap id="teacherResultMap" type="Teacher">
+		<id property="id" column="t_id" />
+		<result property="name" column="t_name" />
+		<result property="gender" column="t_gender" />
+		<result property="researchArea" column="t_research_area" />
+		<result property="title" column="t_title" />
+		<!-- arraylist是MyBatis的内置类型别名，代表java中的 java.util.ArrayList -->
+		<collection property="supStudents" javaType="arraylist"
+					ofType="student" resultMap="demo.mybatis.MyBatis04_01.mapper.StudentMapper.simpleStudent">
+		</collection>
+	</resultMap>
+
+	<!--TeacherMapper接口中getById方法对应的SQL语句 -->
+	<select id="getById" parameterType="int" resultMap="teacherResultMap">
+		select
+			t.id t_id,
+			t.name t_name,
+			t.gender t_gender,
+			t.research_area t_research_area,
+			t.title t_title,
+			s.id s_id,
+			s.name s_name,
+			s.gender s_gender,
+			s.major s_major,
+			s.grade s_grade
+		from teacher t left join student s
+		on t.id = s.supervisor_id
+		where t.id=#{id}
+	</select>
+
+</mapper>
